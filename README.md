@@ -3,6 +3,7 @@ Tự động dance sing khi chạy Lineage2M trên PC.
 
 ## Chuẩn bị
 Giả sử đang chạy L2 bằng Purple trên PC. Có 2 account là Noka và Ruum.
+
 Trên mỗi account, tạo phím tắt cho vũ khí như sau:
 - vũ khí song kiếm, đặt vào ô số 6 (ô đầu tiên số 1).
 - vũ khí chính, đặt vào ô số 7
@@ -14,6 +15,10 @@ configs\
   Noka.json
   Ruum.json
 auto.ps1  
+
+Download: https://github.com/cookieplus/L2M_PowerScript/archive/refs/heads/main.zip
+hoặc click vào nút <> Code màu xanh lá cây, sau đó chọn Download Zip.
+
 
 ## Chạy script
 - Bật 2 màn hình game account Noka và Ruum.
@@ -28,4 +33,5 @@ cd C:\temp\auto
 để thực thi auto.
 
 Cả 2 account sẽ chuyển vũ khí sang song kiếm, sau 2 giây sẽ chuyển về vũ khí chính.
+
 Lặp lại bước trên sau 298 giây.
