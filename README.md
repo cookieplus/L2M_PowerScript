@@ -43,7 +43,7 @@ Unblock-File -Path .\auto.ps1
 
 Cả 2 account sẽ chuyển vũ khí sang song kiếm, sau 2 giây sẽ chuyển về vũ khí chính.
 
-Lặp lại bước trên sau 298 giây.
+Cứ sau 298 giây, auto lại lặp lại bước trên.
 
 ## Chú ý
 Nếu account của bạn tên là Nobita chẳng hạn thì copy/paste file Noka.json thành file Nobita.json trong folder configs.
