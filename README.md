@@ -2,7 +2,7 @@
 Tự động dance sing khi chạy Lineage2M trên PC.
 
 ## Chuẩn bị
-Giả sử đang chạy L2 bằng Purple trên PC. Có 2 account là Noka và Ruum.
+Giả sử đang chạy L2 bằng Purple trên PC. Có 2 account là Noka và Ruum. Cả 2 account này đều đã mua 2 hoặc 3 bài dance của Song kiếm và đều để sẵn là Auto.
 
 Trên mỗi account, tạo phím tắt cho vũ khí như sau:
 - vũ khí song kiếm, đặt vào ô số 6 (ô đầu tiên số 1).
