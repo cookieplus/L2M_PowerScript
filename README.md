@@ -35,8 +35,7 @@ Ví dụ ở unzip ở folder ``` C:\temp\auto ``` thì gõ
 ```
 Unblock-File -Path .\auto.ps1
 ```
-
-Sau đó chạy lệnh sau. Mỗi lần bật lại Auto đều phải chạy lại lệnh này.
+- Sau đó chạy lệnh sau. Mỗi lần bật lại Auto đều phải chạy lại lệnh này.
 ```
 .\auto.ps1
 ```
