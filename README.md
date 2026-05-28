@@ -44,5 +44,16 @@ Lặp lại bước trên sau 298 giây.
 ## Chú ý
 Nếu account của bạn tên là Nobita chẳng hạn thì copy/paste file Noka.json thành file Nobita.json trong folder configs.
 
+Có thể thu nhỏ cửa sổ game về taskbar (không để chế độ tiết kiệm điện) mà auto vẫn chạy bình thường.
+
+Ấn Ctrl + C hoặc tắt cửa sổ PowerShell để dừng script.
+
+Nếu không muốn account nào chạy dance sing tự động thì đổi tên file json tương ứng thành tên khác.
+
+Tránh bật cửa sổ đồ trong account đúng thời điểm dance sing chạy trên account do có thể gây lỗi vũ khí không được lựa chọn.
+
+Click vào danh sách buff để biết bao giờ lại dance sing tiếp, hoặc đơn giản nhìn log ở PowerShell. Tự dộng dance sing sau 5 phút kém 2 giây.
+
+
 Tên file và tên account phải trùng nhau cả chữ hoa chữ thường.
 
