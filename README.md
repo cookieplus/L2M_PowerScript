@@ -29,7 +29,7 @@ hoặc click vào nút [<> Code] màu xanh lá cây, sau đó chọn Download Zi
 - Chuột phải vào PowerShell, chọn Run as Administrator. Windows sẽ hiển thị popup yêu cầu người dùng đồng ý.
 - Trong PowerShell, gõ lệnh ``` cd <đường dẫn tới folder script>```
 Ví dụ ở unzip ở folder ``` C:\temp\auto ``` thì gõ
-cd ``` C:\temp\auto ```
+```cd C:\temp\auto ```
 
 - Gõ lệnh 
 ```
