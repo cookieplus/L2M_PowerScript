@@ -61,3 +61,7 @@ Click vào danh sách buff để biết bao giờ lại dance sing tiếp, hoặ
 
 Tên file và tên account phải trùng nhau cả chữ hoa chữ thường.
 
+## Cập nhật
+### 2026-05-28 
+Thêm Count down xem còn bao lâu thì chạy auto tiếp.
+Sửa bug xung đột khi nhiều combo chạy đồng thời.
