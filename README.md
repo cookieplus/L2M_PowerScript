@@ -24,7 +24,7 @@ Download: https://github.com/cookieplus/L2M_PowerScript/archive/refs/heads/main.
 hoặc click vào nút [<> Code] màu xanh lá cây, sau đó chọn Download Zip.
 
 ## Chạy script
-- Bật 2 màn hình game account Noka và Ruum.
+- Bật 2 màn hình game account Noka và Ruum. Nếu bạn có account Nobita, Xuka thì copy paste Noka.json thành 2 file Xuka.json và Nobita.json, vẫn trong folder configs.
 - Tìm ứng dụng PowerShell, kéo thành icon trên taskbar.
 - Chuột phải vào PowerShell, chọn Run as Administrator. Windows sẽ hiển thị popup yêu cầu người dùng đồng ý.
 - Trong PowerShell, gõ lệnh ``` cd <đường dẫn tới folder script>```
