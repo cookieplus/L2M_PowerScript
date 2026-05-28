@@ -33,7 +33,7 @@ Ví dụ ở unzip ở folder ``` C:\temp\auto ``` thì gõ
 
 - Gõ lệnh 
 ```
-.\auto.ps1
+Unblock-File -Path .\auto.ps1
 ```
 để thực thi auto.
 
