@@ -17,8 +17,7 @@ configs\
 auto.ps1  
 
 Download: https://github.com/cookieplus/L2M_PowerScript/archive/refs/heads/main.zip
-hoặc click vào nút <> Code màu xanh lá cây, sau đó chọn Download Zip.
-
+hoặc click vào nút [<> Code] màu xanh lá cây, sau đó chọn Download Zip.
 
 ## Chạy script
 - Bật 2 màn hình game account Noka và Ruum.
