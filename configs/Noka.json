@@ -1,0 +1,13 @@
+{
+  "loop_seconds": 298,
+  "actions": [
+    {
+      "key": "6",
+      "wait_after": 2
+    },
+    {
+      "key": "7",
+      "wait_after": 1
+    }
+  ]
+}
