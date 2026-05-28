@@ -31,9 +31,14 @@ hoặc click vào nút [<> Code] màu xanh lá cây, sau đó chọn Download Zi
 Ví dụ ở unzip ở folder ``` C:\temp\auto ``` thì gõ
 ```cd C:\temp\auto ```
 
-- Gõ lệnh 
+- Gõ lệnh sau để unblock file auto.ps1 Lệnh này chỉ cần chạy 1 lần duy nhất.
 ```
 Unblock-File -Path .\auto.ps1
+```
+
+Sau đó chạy lệnh sau. Mỗi lần bật lại Auto đều phải chạy lại lệnh này.
+```
+.\auto.ps1
 ```
 để thực thi auto.
 
