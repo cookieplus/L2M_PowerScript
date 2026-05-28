@@ -34,3 +34,9 @@ cd C:\temp\auto
 Cả 2 account sẽ chuyển vũ khí sang song kiếm, sau 2 giây sẽ chuyển về vũ khí chính.
 
 Lặp lại bước trên sau 298 giây.
+
+## Chú ý
+Nếu account của bạn tên là Nobita chẳng hạn thì copy/paste file Noka.json thành file Nobita.json trong folder configs.
+
+Tên file và tên account phải trùng nhau cả chữ hoa chữ thường.
+
