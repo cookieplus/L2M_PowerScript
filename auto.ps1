@@ -41,6 +41,54 @@ function Log($text)
     Write-Host "[$time] $text"
 }
 
+function Clear-StatusLine()
+{
+    Write-Host -NoNewline (
+        "`r" + (" " * 120) + "`r"
+    )
+}
+
+function Wait-WithCountdown($targetTimestamp)
+{
+    while ($true)
+    {
+        $now =
+            [DateTimeOffset]::UtcNow.
+            ToUnixTimeMilliseconds()
+
+        $remainingMs =
+            [int64]($targetTimestamp - $now)
+
+        if ($remainingMs -le 0)
+        {
+            break
+        }
+
+        $timeSpan =
+            [TimeSpan]::FromMilliseconds(
+                $remainingMs
+            )
+
+        # mm:ss
+        $timeText =
+            "{0:D2}:{1:D2}" -f `
+            $timeSpan.Minutes,
+            $timeSpan.Seconds
+
+        Write-Host -NoNewline (
+            "`r[" +
+            (Get-Date -Format "HH:mm:ss") +
+            "] NEXT RUN IN -> $timeText     "
+        )
+
+        # update mỗi 200ms cho mượt hơn
+        Start-Sleep -Milliseconds 200
+    }
+
+    Clear-StatusLine
+}
+
+
 function Send-Key($hwnd, $key)
 {
     $vk = [int][char]$key.ToUpper()
@@ -66,6 +114,8 @@ function Send-Key($hwnd, $key)
 
 function Run-Combo($player)
 {
+    $startTime = Get-Date
+
     Log "===================================="
     Log "RUN COMBO -> $($player.Name)"
     Log "HWND      -> $($player.Hwnd)"
@@ -77,20 +127,26 @@ function Run-Combo($player)
 
         Send-Key $player.Hwnd $key
 
-        if ($action.wait_after)
+        if ($null -ne $action.wait_after)
         {
             Log "WAIT $($action.wait_after)s"
 
-            Start-Sleep -Seconds $action.wait_after
+            Start-Sleep -Seconds (
+                [double]$action.wait_after
+            )
         }
     }
 
+    $duration =
+        ((Get-Date) - $startTime).TotalSeconds
+
     Log "COMBO DONE -> $($player.Name)"
+    Log ("DURATION   -> {0:N2}s" -f $duration)
 }
 
 # =========================
 # STEP 1
-# FIND LINEAGE2M WINDOWS
+# FIND WINDOWS
 # =========================
 
 Log "===================================="
@@ -99,7 +155,9 @@ Log "===================================="
 
 $players = @()
 
-$processes = Get-Process -Name "Lineage2M" -ErrorAction SilentlyContinue
+$processes = Get-Process `
+    -Name "Lineage2M" `
+    -ErrorAction SilentlyContinue
 
 foreach ($process in $processes)
 {
@@ -122,7 +180,6 @@ foreach ($process in $processes)
             continue
         }
 
-        # player name = phần tử cuối
         $name = $parts[-1]
 
         $hwnd = $process.MainWindowHandle
@@ -156,13 +213,14 @@ Log "===================================="
 Log "STEP 2 - LOAD CONFIGS"
 Log "===================================="
 
-$activePlayers = @()
+$queue = New-Object System.Collections.ArrayList
 
 foreach ($player in $players)
 {
     try
     {
-        $configPath = ".\configs\$($player.Name).json"
+        $configPath =
+            ".\configs\$($player.Name).json"
 
         if (-not (Test-Path $configPath))
         {
@@ -170,17 +228,21 @@ foreach ($player in $players)
             continue
         }
 
-        $config = Get-Content $configPath -Raw | ConvertFrom-Json
+        $config =
+            Get-Content $configPath -Raw |
+            ConvertFrom-Json
 
         $playerObject = [PSCustomObject]@{
-            Name   = $player.Name
-            Hwnd   = $player.Hwnd
-            Config = $config
+            Name          = $player.Name
+            Hwnd          = $player.Hwnd
+            Config        = $config
+            NextTimestamp = 0
         }
 
-        $activePlayers += $playerObject
+        [void]$queue.Add($playerObject)
 
         Log "CONFIG LOADED -> $($player.Name)"
+        Log "INTERVAL      -> $($config.loop_seconds)s"
     }
     catch
     {
@@ -190,76 +252,22 @@ foreach ($player in $players)
 }
 
 # =========================
-# STEP 3
-# START TIMERS
+# INIT QUEUE
 # =========================
 
-Log "===================================="
-Log "STEP 3 - START TIMERS"
-Log "===================================="
+$baseNow =
+    [DateTimeOffset]::UtcNow.
+    ToUnixTimeMilliseconds()
 
-foreach ($player in $activePlayers)
+for ($i = 0; $i -lt $queue.Count; $i++)
 {
-    # chạy ngay lần đầu
-    Run-Combo $player
-
-    $timer = New-Object Timers.Timer
-
-    $timer.Interval = $player.Config.loop_seconds * 1000
-    $timer.AutoReset = $true
-    $timer.Enabled = $true
-
-    Register-ObjectEvent `
-        -InputObject $timer `
-        -EventName Elapsed `
-        -MessageData $player `
-        -Action {
-
-            $player = $event.MessageData
-
-            $time = Get-Date -Format "HH:mm:ss"
-
-            Write-Host ""
-            Write-Host "[$time] TIMER TRIGGER -> $($player.Name)"
-
-            foreach ($action in $player.Config.actions)
-            {
-                $key = $action.key
-
-                $vk = [int][char]$key.ToUpper()
-
-                Write-Host "[$time] SEND KEY '$key' -> HWND $($player.Hwnd)"
-
-                [KeyboardSender]::PostMessage(
-                    $player.Hwnd,
-                    0x0100,
-                    $vk,
-                    0
-                ) | Out-Null
-
-                Start-Sleep -Milliseconds 50
-
-                [KeyboardSender]::PostMessage(
-                    $player.Hwnd,
-                    0x0101,
-                    $vk,
-                    0
-                ) | Out-Null
-
-                if ($action.wait_after)
-                {
-                    Write-Host "[$time] WAIT $($action.wait_after)s"
-
-                    Start-Sleep -Seconds $action.wait_after
-                }
-            }
-
-            Write-Host "[$time] COMBO DONE -> $($player.Name)"
-        } | Out-Null
-
-    Log "TIMER STARTED -> $($player.Name)"
-    Log "INTERVAL -> $($player.Config.loop_seconds)s"
+    $queue[$i].NextTimestamp =
+        $baseNow - (1000 - $i)
 }
+
+# =========================
+# MAIN LOOP
+# =========================
 
 Log "===================================="
 Log "AUTO RUNNING"
@@ -268,5 +276,71 @@ Log "===================================="
 
 while ($true)
 {
-    Start-Sleep -Seconds 1
+    # sort queue
+    $queue =
+        $queue |
+        Sort-Object NextTimestamp
+
+    Log "=========== QUEUE DUMP ==========="
+
+    foreach ($item in $queue)
+    {
+        $date =
+            [DateTimeOffset]::FromUnixTimeMilliseconds(
+                [int64]$item.NextTimestamp
+            ).LocalDateTime
+
+        Log (
+            $item.Name +
+            " | " +
+            $item.NextTimestamp +
+            " | " +
+            $date.ToString("HH:mm:ss")
+        )
+    }
+
+    Log "=================================="
+
+
+    # lấy head queue
+    $player = $queue[0]
+
+    $now =
+        [DateTimeOffset]::UtcNow.
+        ToUnixTimeMilliseconds()
+
+    # overdue => xử lý ngay
+    if ($player.NextTimestamp -le $now)
+    {
+        Log ""
+        Log "NEXT PLAYER -> $($player.Name)"
+
+        Run-Combo $player
+
+        # update timestamp
+        $player.NextTimestamp =
+            [DateTimeOffset]::UtcNow.
+            ToUnixTimeMilliseconds() +
+            (
+                [double]$player.Config.loop_seconds *
+                1000
+            )
+
+        $nextDate =
+            [DateTimeOffset]::FromUnixTimeMilliseconds(
+                [int64]$player.NextTimestamp
+            ).LocalDateTime
+
+        Log (
+            "NEXT RUN -> " +
+            $nextDate.ToString("HH:mm:ss")
+        )
+
+        Log ""
+
+        continue
+    }
+
+    # chưa tới giờ => countdown
+    Wait-WithCountdown $player.NextTimestamp
 }
