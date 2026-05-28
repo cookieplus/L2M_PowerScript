@@ -11,10 +11,14 @@ Trên mỗi account, tạo phím tắt cho vũ khí như sau:
 ## Download
 Download project này về dưới dạng file zip. Unzip ở folder, ví dụ C:\temp\auto
 Cấu trúc thư mục như sau
-configs\
-  Noka.json
-  Ruum.json
-auto.ps1  
+
+```text
+auto\
+  configs\
+    Noka.json
+    Ruum.json
+  auto.ps1  
+```
 
 Download: https://github.com/cookieplus/L2M_PowerScript/archive/refs/heads/main.zip
 hoặc click vào nút [<> Code] màu xanh lá cây, sau đó chọn Download Zip.
@@ -23,12 +27,14 @@ hoặc click vào nút [<> Code] màu xanh lá cây, sau đó chọn Download Zi
 - Bật 2 màn hình game account Noka và Ruum.
 - Tìm ứng dụng PowerShell, kéo thành icon trên taskbar.
 - Chuột phải vào PowerShell, chọn Run as Administrator. Windows sẽ hiển thị popup yêu cầu người dùng đồng ý.
-- Trong PowerShell, gõ lệnh cd <đường dẫn tới folder script>
-Ví dụ ở unzip ở folder C:\temp\auto thì gõ
-cd C:\temp\auto
+- Trong PowerShell, gõ lệnh ``` cd <đường dẫn tới folder script>```
+Ví dụ ở unzip ở folder ``` C:\temp\auto ``` thì gõ
+cd ``` C:\temp\auto ```
 
 - Gõ lệnh 
+```
 .\auto.ps1
+```
 để thực thi auto.
 
 Cả 2 account sẽ chuyển vũ khí sang song kiếm, sau 2 giây sẽ chuyển về vũ khí chính.
