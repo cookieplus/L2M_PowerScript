@@ -65,3 +65,38 @@ Tên file và tên account phải trùng nhau cả chữ hoa chữ thường.
 ### 2026-05-28 
 Thêm Count down xem còn bao lâu thì chạy auto tiếp.
 Sửa bug xung đột khi nhiều combo chạy đồng thời.
+### 2026-05-29 
+Thêm thuộc tính `start_delay_seconds`. Nếu không đặt thì giá trị là 0. Nếu đặt thì combo này sẽ khởi động sau các combo khác `start_delay_seconds` giây. Giá trị giây có thể là số thực.
+Cho phép người dùng tạo nhiều combo, mỗi combo có thời gian cooldown riêng.
+Ví dụ người chơi sau để heal cá nhân ở ô số 1, lặp lại sau 30 giây. Khởi động chậm lại 15s so với các combo thông thường.
+```json
+[
+{
+  "loop_seconds": 298,
+  "actions": [
+    {
+      "key": "6",
+      "wait_after": 2
+    },
+    {
+      "key": "7",
+      "wait_after": 1
+    }
+  ]
+},
+{
+  "start_delay_seconds": 15,
+  "loop_seconds": 30,
+  "actions": [
+    {
+      "key": "1",
+      "wait_after": 0.1
+    },
+    {
+      "key": "1",
+      "wait_after": 0.1
+    }
+  ]
+}
+]
+```
