@@ -228,21 +228,55 @@ foreach ($player in $players)
             continue
         }
 
-        $config =
+        $parsed =
             Get-Content $configPath -Raw |
             ConvertFrom-Json
 
-        $playerObject = [PSCustomObject]@{
-            Name          = $player.Name
-            Hwnd          = $player.Hwnd
-            Config        = $config
-            NextTimestamp = 0
+        # nếu là object -> convert thành array 1 phần tử
+        if ($parsed -isnot [System.Array])
+        {
+            $configs = @($parsed)
+        }
+        else
+        {
+            $configs = $parsed
         }
 
-        [void]$queue.Add($playerObject)
+        $comboIndex = 1
 
-        Log "CONFIG LOADED -> $($player.Name)"
-        Log "INTERVAL      -> $($config.loop_seconds)s"
+        foreach ($config in $configs)
+        {
+            $playerObject = [PSCustomObject]@{
+                Name          = $player.Name
+                ComboIndex    = $comboIndex
+                Hwnd          = $player.Hwnd
+                Config        = $config
+                NextTimestamp = 0
+            }
+
+            [void]$queue.Add($playerObject)
+
+            Log (
+                "CONFIG LOADED -> " +
+                "$($player.Name) #" +
+                "$comboIndex"
+            )
+
+            Log (
+                "INTERVAL      -> " +
+                "$($config.loop_seconds)s"
+            )
+
+            if ($null -ne $config.start_delay_seconds)
+            {
+                Log (
+                    "START DELAY  -> " +
+                    "$($config.start_delay_seconds)s"
+                )
+            }
+
+            $comboIndex++
+        }
     }
     catch
     {
@@ -261,8 +295,19 @@ $baseNow =
 
 for ($i = 0; $i -lt $queue.Count; $i++)
 {
-    $queue[$i].NextTimestamp =
-        $baseNow - (1000 - $i)
+    $item = $queue[$i]
+
+    $delaySeconds = 0
+
+    if ($null -ne $item.Config.start_delay_seconds)
+    {
+        $delaySeconds =
+            [double]$item.Config.start_delay_seconds
+    }
+
+    $item.NextTimestamp =
+        $baseNow +
+        ($delaySeconds * 1000)
 }
 
 # =========================
