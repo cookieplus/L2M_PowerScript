@@ -17,7 +17,8 @@ auto\
   configs\
     Noka.json
     Ruum.json
-  auto.ps1  
+  auto.ps1
+  run.bat
 ```
 
 Download: https://github.com/cookieplus/L2M_PowerScript/archive/refs/heads/main.zip
@@ -25,25 +26,9 @@ hoặc click vào nút [<> Code] màu xanh lá cây, sau đó chọn Download Zi
 
 ## Chạy script
 - Bật 2 màn hình game account Noka và Ruum. Nếu bạn có account Nobita, Xuka thì copy paste Noka.json thành 2 file Xuka.json và Nobita.json, vẫn trong folder configs.
-- Tìm ứng dụng PowerShell, kéo thành icon trên taskbar.
-- Chuột phải vào PowerShell, chọn Run as Administrator. Windows sẽ hiển thị popup yêu cầu người dùng đồng ý.
-- Trong PowerShell, gõ lệnh ``` cd <đường dẫn tới folder script>```
-Ví dụ ở unzip ở folder ``` C:\temp\auto ``` thì gõ
-```cd C:\temp\auto ```
+- Chạy file `run.bat`. Chương trình sẽ yêu cầu quyền admin để thực hiện auto.
 
-- Gõ lệnh sau để unblock file auto.ps1 Lệnh này chỉ cần chạy 1 lần duy nhất.
-```
-Unblock-File -Path .\auto.ps1
-```
-- Sau đó chạy lệnh sau. Mỗi lần bật lại Auto đều phải chạy lại lệnh này.
-```
-.\auto.ps1
-```
-để thực thi auto.
-
-Cả 2 account sẽ chuyển vũ khí sang song kiếm, sau 2 giây sẽ chuyển về vũ khí chính.
-
-Cứ sau 298 giây, auto lại lặp lại bước trên.
+Cả 2 account sẽ chuyển vũ khí sang song kiếm. Sau 2 giây sẽ chuyển về vũ khí chính. Sau 298 giây, auto lại lặp lại dance sing.
 
 ## Chú ý
 Nếu account của bạn tên là Nobita chẳng hạn thì copy/paste file Noka.json thành file Nobita.json trong folder configs.
@@ -98,5 +83,7 @@ Ví dụ người chơi sau để heal cá nhân ở ô số 1, lặp lại sau 
     }
   ]
 }
+### 2026-05-30 
+Thêm file run.bat. Chạy file này để xin quyền admin để thực thi auto.
 ]
 ```
