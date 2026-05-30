@@ -83,7 +83,8 @@ Ví dụ người chơi sau để heal cá nhân ở ô số 1, lặp lại sau 
     }
   ]
 }
-### 2026-05-30 
-Thêm file run.bat. Chạy file này để xin quyền admin để thực thi auto.
-]
 ```
+### 2026-05-30 
+Thêm file run.bat để thực hiện xin quyền admin trước khi thực thi file auto.ps1.
+
+
